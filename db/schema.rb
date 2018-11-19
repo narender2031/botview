@@ -10,10 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_16_055744) do
+ActiveRecord::Schema.define(version: 2018_11_16_091335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bot_service_messages", force: :cascade do |t|
+    t.bigint "service_message_id"
+    t.bigint "bot_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bot_id"], name: "index_bot_service_messages_on_bot_id"
+    t.index ["service_message_id"], name: "index_bot_service_messages_on_service_message_id"
+  end
+
+  create_table "bots", force: :cascade do |t|
+    t.string "messages"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "service_messages", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -29,4 +52,6 @@ ActiveRecord::Schema.define(version: 2018_11_16_055744) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bot_service_messages", "bots"
+  add_foreign_key "bot_service_messages", "service_messages"
 end

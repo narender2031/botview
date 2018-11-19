@@ -18,6 +18,12 @@ module Botview
         controller_specs: false,
         request_specs: false
       g.fixture_replacement :factory_bot, dir: "spec/factories"
+      config.middleware.use Rack::Cors do
+        allow do
+          origins "*"
+          resource "*", headers: :any, methods: [:get, :post, :put, :delete, :options]
+        end
+      end
     end
 
     # Initialize configuration defaults for originally generated Rails version.

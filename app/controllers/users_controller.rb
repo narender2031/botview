@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find(current_user.id)
     authorize @user
   end
 
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    user = User.find(params[:id])
+    user = User.find(current_user.id)
     authorize user
     user.destroy
     redirect_to users_path, :notice => "User deleted."
