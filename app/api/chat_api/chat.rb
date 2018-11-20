@@ -14,40 +14,26 @@ module ChatApi
 				end
 			end
 			def current_user
-					@current_user
+				@current_user
 			end
 		end
-		# login SignUp Api's
-
+		# api's
 		resource :graph do 
-			desc "Hello"
-			params do
-				requires :valuse, type:String, documentation: { in: 'body' }
-				requires :encounter_id, type:Integer
-			end
-			post '/' do
-				require 'uri'
-				require 'net/http'
-
-				url = URI("https://38ab4dc3.ngrok.io/incoming/sarah")
-
-				http = Net::HTTP.new(url.host, url.port)
-				http.use_ssl = true
-				http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-				request = Net::HTTP::Post.new(url)
-				request["content-type"] = 'application/x-www-form-urlencoded'
-				request.body = "value=#{params[:valuse]}&encounter_id=#{params[:encounter_id]}"
-				response = http.request(request)
-				({message: response})
-			end
-
 			desc "Results"
 			params do 
 				requires :message, type:String, documentation: {in: 'body'}
+				requires :user_id, type:Integer
+				requires :message_type, type:String
 			end
-			post '/results' do 
-				puts params[:message]
+			post '/results' do
+				conversation = Conversation.find_by(sender_id: 3, recipient_id: params[:user_id])
+				if !conversation.present?
+					conversation = Conversation.new(sender_id: 3, recipient_id: params[:user_id])
+					conversation.save
+				end
+				message = Message.create!(content: params[:message], conversation_id: conversation.id, message_by: 'bot')
+				message.save
+				puts "message: #{params[:message]}, user_id: #{params[:user_id]}, message_type: #{params[:message_type]}"
 				({message: params[:message] })
 			end
 		end

@@ -10,32 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_16_091335) do
+ActiveRecord::Schema.define(version: 2018_11_20_052432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "bot_service_messages", force: :cascade do |t|
-    t.bigint "service_message_id"
-    t.bigint "bot_id"
+  create_table "conversations", force: :cascade do |t|
+    t.integer "recipient_id"
+    t.integer "sender_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["bot_id"], name: "index_bot_service_messages_on_bot_id"
-    t.index ["service_message_id"], name: "index_bot_service_messages_on_service_message_id"
+    t.index ["recipient_id", "sender_id"], name: "index_conversations_on_recipient_id_and_sender_id", unique: true
+    t.index ["recipient_id"], name: "index_conversations_on_recipient_id"
+    t.index ["sender_id"], name: "index_conversations_on_sender_id"
   end
 
-  create_table "bots", force: :cascade do |t|
-    t.string "messages"
-    t.integer "user_id"
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.bigint "conversation_id"
+    t.string "message_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "service_messages", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "message"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -52,6 +48,5 @@ ActiveRecord::Schema.define(version: 2018_11_16_091335) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "bot_service_messages", "bots"
-  add_foreign_key "bot_service_messages", "service_messages"
+  add_foreign_key "messages", "conversations"
 end

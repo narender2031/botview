@@ -1,35 +1,10 @@
 <div class="row">
-    <div class="col-12">
-        
+  <div class="col-12">
+    <div class="message_container">
+      <%= render partial: "message.html.erb", locals: {messages: "" } %>
     </div>
-    <div class="col-12">
-        <input type="text" class="from-control message" />
-        <button class="btn btn-primary send_message">Send</button>
+    <div class="form_container">
+      <%= render partial: "form.html.erb", locals: {messages: "" } %>
     </div>
+  </div>
 </div>
-
-<script>
-    $(".send_message").on('click', function(){
-    message = $(".message").val();
-    id = <%= current_user.id %>
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "http://localhost:3000/api/v1/graph",
-        "method": "POST",
-        "headers": {
-            "accept": "application/json",
-            "content-type": "application/x-www-form-urlencoded"
-        },
-        "data": {
-            "valuse": `${message}`,
-            "encounter_id": `${id}`
-        }
-    }
-    $.ajax(settings).done(function (response) {
-        console.log(response);
-        $(".message").val('');
-    });
-
-})
-</script>

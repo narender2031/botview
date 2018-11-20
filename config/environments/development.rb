@@ -10,6 +10,8 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports.
+  config.action_cable.allowed_request_origins = [ /http:\/\/.*/, /https:\/\/.*/ ]
+  config.action_cable.disable_request_forgery_protection = true
   config.consider_all_requests_local = true
 
   # Enable/disable caching. By default caching is disabled.

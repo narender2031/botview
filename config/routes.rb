@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root to: 'visitors#index'
 
   get '/chat', to: "chat#index"
+  post '/message', to: "chat#message"
 
   devise_for :users
   resources :users

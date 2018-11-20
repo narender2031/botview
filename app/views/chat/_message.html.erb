@@ -1,0 +1,17 @@
+<div class="messages">
+  <% if @messages.present? %>
+    <% @messages.each do |message| %>
+      <div class="row">
+        <div class="col-12">
+          <span class="<%= message.message_by == 'user' ? 'user_message' : 'bot_message' %>"><%= message.content %></span>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="row">
+      <div class="col-12">
+        <p>Start Conversion</p>
+      </div>
+    </div>
+  <% end %>
+</div>
