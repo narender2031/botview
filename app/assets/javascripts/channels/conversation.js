@@ -22,6 +22,7 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
         });
       }
       botui.action.text({ 
+        human: true,
         action: {
           placeholder: 'Your name'
         }
@@ -41,7 +42,8 @@ $(document).on('submit', '.botui-actions-text', function(e){
   message = $(".botui-actions-text-input").val();
   message_by = 'user'
   data = []
-  data.push({message: message, message_by: message_by})
+  conversation_id = $("#conversation_id").val();
+  data.push({message: message, message_by: message_by, conversation_id: conversation_id})
   var values = data
   App.conversation.speak(values);
   $(this).trigger('reset');

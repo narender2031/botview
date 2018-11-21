@@ -8,11 +8,10 @@
     <%# </div>
   </div>
 </div> %>
-
 <div class="botui-app-container" id="hello-world">
-      <bot-ui></bot-ui>
+  <bot-ui></bot-ui>
+  <input type="hidden" name="conversation_id"  id ="conversation_id" value=<%= @conversation_id %>>
 </div>
-<script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
 <script>
  var botui = new BotUI('hello-world');
  // wait till its shown
@@ -28,7 +27,8 @@
         });
       <% end  %>
     <% end %>
-    botui.action.text({ // show 'text' action
+    botui.action.text({
+      human: true, // show 'text' action
       action: {
         placeholder: 'Your name'
       }

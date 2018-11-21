@@ -15,5 +15,6 @@
 //= require cable
 //= require rails-ujs
 //= require botui/build/botui
+//= require vue/dist/vue.min.js
 //= require bootstrap-sprockets
 //= require_tree .

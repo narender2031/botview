@@ -3,7 +3,6 @@ class ChatController < ApplicationController
     
     def index
         @conversation_id = create_or_check_conversation(current_user.id, 3).to_i
-        session[:conversation_id] = @conversation_id
         conversation_ids = get_conversation_ids(current_user.id, 3)
         @messages = Message.where(:conversation_id => conversation_ids.to_a)
     end
