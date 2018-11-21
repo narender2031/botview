@@ -1,8 +1,8 @@
 <div class="form mt-4">
-  <%= form_tag message_path, remote: true do %>
-    <%= text_field_tag "message","", class: "", style:"width:94%" %>
-    <%= hidden_field_tag "sender_id", current_user.id %>
-    <%= hidden_field_tag "recipient_id",  3%>
-    <%= button_tag "Send" %>
-  <% end %>
+  <form class="new_message">
+    <input type="hidden"  name= "conversation_id" value= <%= @conversation_id %> />
+    <input type="hidden"  name= "message_by" value= 'user' />
+    <input type="text" name="content" style="width:90%" />
+    <button class="btn btn-primery" name="send" value="send">Send</button>
+  </form>  
 </div>

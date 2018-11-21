@@ -3,7 +3,7 @@
     <% @messages.each do |message| %>
       <div class="row">
         <div class="col-12">
-          <span class="<%= message.message_by == 'user' ? 'user_message' : 'bot_message' %>"><%= message.content %></span>
+          <%= render partial: "message_content.html.erb", locals: {message: message}%>
         </div>
       </div>
     <% end %>
