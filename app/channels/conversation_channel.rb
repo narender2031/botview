@@ -2,7 +2,7 @@ class ConversationChannel < ApplicationCable::Channel
   require 'uri'
   require 'net/http'
 
-  
+
   def subscribed
     stream_from "conversations-#{current_user.id}"
   end
@@ -19,7 +19,7 @@ class ConversationChannel < ApplicationCable::Channel
       message_params["message_by"] = message['message_by']
       message_params["conversation_id"] = message['conversation_id']
     end
-    Message.create(message_params) 
+    Message.create(message_params)
     call_back_to_bot(message_params['content'], current_user.id, message_params['conversation_id'])
   end
 
@@ -27,7 +27,7 @@ class ConversationChannel < ApplicationCable::Channel
 
   def call_back_to_bot(message, user_id, conversation_id)
     if conversation_id.present?
-      url = URI("https://57a01cb4.ngrok.io/incoming/sarah")
+      url = URI("https://4811f170.ngrok.io/incoming/sarah")
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
