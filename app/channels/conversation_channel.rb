@@ -1,4 +1,8 @@
 class ConversationChannel < ApplicationCable::Channel
+  require 'uri'
+  require 'net/http'
+
+  
   def subscribed
     stream_from "conversations-#{current_user.id}"
   end
@@ -9,11 +13,16 @@ class ConversationChannel < ApplicationCable::Channel
 
 
   def speak(data)
+    puts "--------"
+    puts data
+    puts "--------"
     message_params = {}
     data['message'].each do |message|
-      message_params["#{message['name']}"] = message['value']
+      message_params["content"] = message['message']
+      message_params["message_by"] = message['message_by']
+      message_params["conversation_id"] = 16
     end
-    Message.create(message_params)
+    Message.create(message_params) 
     call_back_to_bot(message_params['content'], current_user.id, message_params['conversation_id'])
   end
 

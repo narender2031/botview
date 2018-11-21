@@ -14,5 +14,6 @@
 //= require popper
 //= require cable
 //= require rails-ujs
+//= require botui/build/botui
 //= require bootstrap-sprockets
 //= require_tree .

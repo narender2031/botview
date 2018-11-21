@@ -1,10 +1,36 @@
-<div class="row">
+<%# <div class="row">
   <div class="col-12">
-    <div class="message_container">
-      <%= render partial: "message.html.erb", locals: {messages: "" } %>
-    </div>
-    <div class="form_container">
-      <%= render partial: "form.html.erb", locals: {messages: "" } %>
-    </div>
+    <div class="message_container"> %>
+      <%#= render partial: "message.html.erb", locals: {messages: "" } %>
+    <%# </div>
+    <div class="form_container"> %>
+      <%#= render partial: "form.html.erb", locals: {messages: "" } %>
+    <%# </div>
   </div>
+</div> %>
+
+<div class="botui-app-container" id="hello-world">
+      <bot-ui></bot-ui>
 </div>
+<script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
+<script>
+ var botui = new BotUI('hello-world');
+ // wait till its shown
+    <% @messages.each do |message| %>
+      <% if message.message_by == 'user' %>
+         botui.message.add({
+          human: true,
+          content: "<%= message.content %>",
+        });
+      <% else %>
+        botui.message.add({
+          content: "<%= message.content %>"
+        });
+      <% end  %>
+    <% end %>
+    botui.action.text({ // show 'text' action
+      action: {
+        placeholder: 'Your name'
+      }
+    });
+</script>

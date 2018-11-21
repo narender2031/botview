@@ -2,7 +2,17 @@
 # yarn lockfile v1
 
 
+botui@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/botui/-/botui-0.3.5.tgz#4bf1db14b8d7f6fd8285107688c81a3b8b36d895"
+  integrity sha512-zYCAUr47H6Iw3U30WKnZSB4hcFQvBEOiSJiXbaRicVettNk4MNwB/rTyPzaQZtJeXUp0JAJ1+PxkJHZlX92VDw==
+
 jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
   integrity sha512-Ubldcmxp5np52/ENotGxlLe6aGMvmF4R8S6tZjsP6Knsaxd/xp3Zrh50cG93lR6nPXyUFwzN3ZSOQI0wRJNdGg==
+
+vue@^2.5.17:
+  version "2.5.17"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
+  integrity sha512-mFbcWoDIJi0w0Za4emyLiW72Jae0yjANHbCVquMKijcavBGypqlF7zHRgMa5k4sesdv7hv2rB4JPdZfR+TPfhQ==
