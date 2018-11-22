@@ -19,7 +19,7 @@ class MessageBroadcastJob < ApplicationJob
         "conversations-#{user.id}",
         message: render_message(message, user),
         content: message, 
-        user: user.id
+        user: user.id,
         # conversation_id: message.conversation_id
       )
     end
@@ -32,6 +32,7 @@ class MessageBroadcastJob < ApplicationJob
         message: render_message(message, user),
         content: message, 
         user: user.id
+
         # conversation_id: message.conversation_id
       )
     end
