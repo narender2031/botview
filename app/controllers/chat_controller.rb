@@ -24,15 +24,15 @@ class ChatController < ApplicationController
         Conversation.where(sender_id: sender_id, recipient_id: recipient_id).or(Conversation.where(sender_id: recipient_id, recipient_id: sender_id)).pluck(:id)
     end
 
-    def say_hello_from_bot(user_id)
-        message = "Hello"
-        url = URI("https://57a01cb4.ngrok.io/incoming/sarah")
-        http = Net::HTTP.new(url.host, url.port)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        request = Net::HTTP::Post.new(url)
-        request["content-type"] = 'application/x-www-form-urlencoded'
-        request.body = "value=#{message}&encounter_id=#{user_id}"
-        response = http.request(request)
-    end
+    # def say_hello_from_bot(user_id)
+    #     message = "Hello"
+    #     url = URI("https://57a01cb4.ngrok.io/incoming/sarah")
+    #     http = Net::HTTP.new(url.host, url.port)
+    #     http.use_ssl = true
+    #     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    #     request = Net::HTTP::Post.new(url)
+    #     request["content-type"] = 'application/x-www-form-urlencoded'
+    #     request.body = "value=#{message}&encounter_id=#{user_id}"
+    #     response = http.request(request)
+    # end
 end
