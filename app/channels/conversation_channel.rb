@@ -26,6 +26,9 @@ class ConversationChannel < ApplicationCable::Channel
   private
 
   def call_back_to_bot(message, user_id, conversation_id)
+    puts conversation_id
+    puts user_id
+    puts message
     if conversation_id.present?
       url = URI("https://4811f170.ngrok.io/incoming/sarah")
       http = Net::HTTP.new(url.host, url.port)
