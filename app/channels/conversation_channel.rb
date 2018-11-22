@@ -19,14 +19,14 @@ class ConversationChannel < ApplicationCable::Channel
       message_params["message_by"] = message['message_by']
       message_params["conversation_id"] = message['conversation_id']
     end
-    Message.create(message_params) 
+    Message.create(message_params)
     call_back_to_bot(message_params['content'], current_user.id, message_params['conversation_id'])
   end
 
   private
 
   def call_back_to_bot(message, user_id, conversation_id)
-    if conversation_id.present?
+    if conversation_id.present? && user_id.present? && message.present?
       url = URI("#{ENV['BOT_URL']}")
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true

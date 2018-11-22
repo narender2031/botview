@@ -5,19 +5,7 @@
 <script>
  var botui = new BotUI('hello-world');
   // wait till its shown 
-  <% @messages.each do |message| %>
-    <% if message.message_by == 'user' %>
-      botui.message.add({
-        human: true,
-        content: "<%= message.content %>",
-      });
-    <% else %>
-      botui.message.add({
-        content: "<%= message.content %>"
-      });
-    <% end  %>
-  <% end %>
-  <% if  @messages.blank? %> 
+  <% if @messages.blank? %>
     botui.action.button({
       action: [
         { // show only one button
@@ -27,21 +15,34 @@
       ]
     }).then(function (res) { // will be called when a button is clicked.
       message = res.value;
-        message_by = 'user'
-        data = []
-        conversation_id = $("#conversation_id").val();
-        data.push({message: message, message_by: message_by, conversation_id: conversation_id})
-        var values = data
-        App.conversation.speak(values);
-          // $(this).trigger('reset'); will print "one" from 'value'
+      message_by = 'user'
+      data = []
+      conversation_id = $("#conversation_id").val();
+      data.push({message: message, message_by: message_by, conversation_id: conversation_id})
+      var values = data
+      App.conversation.speak(values);
+        // $(this).trigger('reset'); will print "one" from 'value'
     });
   <% else %>
-      botui.action.text({
-        human: true, // show 'text' action
-        action: {
-          placeholder: 'Your name'
-        }
-      });
+    <% @messages.each do |message| %>
+      <% if message.message_by == 'user' %>
+        botui.message.add({
+          human: true,
+          content: "<%= message.content %>",
+        });
+      <% else %>
+        botui.message.add({
+          content: "<%= message.content %>"
+        });
+      <% end  %>
+    <% end %>
+
+    // show input field
+    botui.action.text({
+      human: true, // show 'text' action
+      action: {
+        placeholder: 'Your name'
+      }
+    });
   <% end %>
-  
 </script>
