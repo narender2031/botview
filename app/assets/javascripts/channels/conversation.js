@@ -6,6 +6,7 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
     console.log(data['content']['content'])
     message = data['content']['content']
     message_by = data['content']['message_by']
+    message_type = data['content']['message_type']
     if(data != ''){
       // $(".messages").append(data['message'])
       // $(".messages").append('<br>')
@@ -22,6 +23,8 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
         });
       }
       botui.action.text({ 
+        delay: 3000,
+        loading: true,
         human: true,
         action: {
           placeholder: 'Your name'
