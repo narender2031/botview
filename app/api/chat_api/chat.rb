@@ -42,6 +42,5 @@ module ChatApi
 				({message: params[:message] })
 			end
 		end
-
-  	end
+  end
 end
