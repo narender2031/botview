@@ -5,6 +5,8 @@
 <script>
  var botui = new BotUI('hello-world');
   // wait till its shown 
+  $(".botui-messages-container").addClass('container');
+  $(".botui-actions-container").addClass('container');
   <% if @messages.blank? %>
     botui.action.button({
       action: [
