@@ -26,9 +26,9 @@ module ChatApi
 				requires :message_type, type:String
 			end
 			post '/results' do
-				conversation = Conversation.find_by(sender_id: 2, recipient_id: params[:user_id])
+				conversation = Conversation.find_by(sender_id: ENV['BOT_USER_id'], recipient_id: params[:user_id])
 				if !conversation.present?
-					conversation = Conversation.new(sender_id: 2, recipient_id: params[:user_id])
+					conversation = Conversation.new(sender_id: ENV['BOT_USER_id'], recipient_id: params[:user_id])
 					conversation.save
 				end
 				# if params[:buttons].present?
@@ -36,8 +36,7 @@ module ChatApi
 				# 		Message.create!(content: button[:text], message_type: "buttons", conversation_id: conversation.id, message_by: 'bot')
 				# 	end
 				# end
-				puts "hello"
-				message = Message.new(content: params[:message], conversation_id: conversation.id, message_by: 'bot', message_type: "text")
+				message = Message.new(content: params[:message], conversation_id: conversation.id, message_by: "#{ENV['BOT_USER']}", message_type: "text")
 				message.save
 				puts "message: #{params[:message]}, user_id: #{params[:user_id]}, message_type: #{params[:message_type]}"
 				({message: params[:message] })

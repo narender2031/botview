@@ -23,7 +23,7 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
         });
       }
       botui.action.text({ 
-        delay: 3000,
+        delay: 1000,
         loading: true,
         human: true,
         action: {

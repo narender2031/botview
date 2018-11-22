@@ -27,7 +27,7 @@ class ConversationChannel < ApplicationCable::Channel
 
   def call_back_to_bot(message, user_id, conversation_id)
     if conversation_id.present?
-      url = URI("https://stealthbot-staging.herokuapp.com/incoming/sarah")
+      url = URI("#{ENV['BOT_URL']}")
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
