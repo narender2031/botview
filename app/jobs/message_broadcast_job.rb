@@ -17,7 +17,6 @@ class MessageBroadcastJob < ApplicationJob
     if message.message_by != "bot"
       ActionCable.server.broadcast(
         "conversations-#{user.id}",
-        message: render_message(message, user),
         content: message, 
         user: user.id,
         # conversation_id: message.conversation_id
@@ -29,7 +28,6 @@ class MessageBroadcastJob < ApplicationJob
     if user.name != "bot"
       ActionCable.server.broadcast(
         "conversations-#{user.id}",
-        message: render_message(message, user),
         content: message, 
         user: user.id
 
@@ -38,14 +36,14 @@ class MessageBroadcastJob < ApplicationJob
     end
   end
 
-  def render_message(message, user)
-    if user.name != "bot"
-      ApplicationController.render(
-        partial: 'chat/message_content',
-        locals: { message: message, user: user }
-      )
-    end
-  end
+  # def render_message(message, user)
+  #   if user.name != "bot"
+  #     ApplicationController.render(
+  #       partial: 'chat/message_content',
+  #       locals: { message: message, user: user }
+  #     )
+  #   end
+  # end
 
   # def render_window(conversation, user)
   #   ApplicationController.render(
