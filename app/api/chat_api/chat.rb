@@ -26,9 +26,9 @@ module ChatApi
 				requires :message_type, type:String
 			end
 			post '/results' do
-				conversation = Conversation.find_by(sender_id: 3, recipient_id: params[:user_id])
+				conversation = Conversation.find_by(sender_id: 2, recipient_id: params[:user_id])
 				if !conversation.present?
-					conversation = Conversation.new(sender_id: 3, recipient_id: params[:user_id])
+					conversation = Conversation.new(sender_id: 2, recipient_id: params[:user_id])
 					conversation.save
 				end
 				# if params[:buttons].present?

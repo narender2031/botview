@@ -4,8 +4,8 @@ class ChatController < ApplicationController
     require 'net/http'
 
     def index
-        @conversation_id = create_or_check_conversation(current_user.id, 3).to_i
-        conversation_ids = get_conversation_ids(current_user.id, 3)
+        @conversation_id = create_or_check_conversation(current_user.id, 2).to_i
+        conversation_ids = get_conversation_ids(current_user.id, 2)
         @messages = Message.where(:conversation_id => conversation_ids.to_a).order(created_at: :asc)
 
     end
