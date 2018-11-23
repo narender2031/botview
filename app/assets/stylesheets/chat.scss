@@ -18,15 +18,17 @@
 }
 
 header{
-    background: #eccdcd
+    display: none
 }
 
-body{
-    background: #eccdcd
+.bot_start{
+    background: #eccdcd;
+    overflow-y:auto;
+    height:100vh
 }
 .botui-app-container{
     width:100% !important;
-    height: 550px !important;
+    height: 660px !important;
     margin:0 auto; 
 }
 
