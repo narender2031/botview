@@ -2,8 +2,6 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
   connected: function() {},
   disconnected: function() {},
   received: function(data) {
-    console.log(data)
-    console.log(data['content'])
     message = data['content']
     message_by = data['message_by']
     message_type = data['message_type']
@@ -44,7 +42,6 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
             }
             final_button.push(sort_data)
           })
-          console.log(final_button)
           return botui.action.button({
             delay: 2000,
             loading: true,
