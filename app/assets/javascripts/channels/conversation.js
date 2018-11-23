@@ -25,7 +25,7 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
             content: message
           });
           botui.action.text({ 
-            delay: 3000,
+            delay: 2000,
             human: true,
             action: {
               placeholder: 'Please enter your text'
