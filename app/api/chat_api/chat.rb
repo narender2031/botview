@@ -37,7 +37,7 @@ module ChatApi
         message.save
 
         if params[:buttons].present?
-          Message.create!(content: params[:buttons], message_type: "buttons", conversation_id: conversation.id, message_by: "#{ENV['USER']}")
+          Message.create!(content: params[:buttons], message_type: "buttons", conversation_id: conversation.id, message_by: "#{ENV['BOT_USER']}")
         end
         puts "message: #{params[:message]}, user_id: #{params[:user_id]}, message_type: #{params[:message_type]}"
         ({message: params[:message] })
