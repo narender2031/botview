@@ -17,7 +17,9 @@ class MessageBroadcastJob < ApplicationJob
     if message.message_by != "bot"
       ActionCable.server.broadcast(
         "conversations-#{user.id}",
-        content: message, 
+        content:  message.content.as_json,
+        message_by: message.message_by,
+        message_type: message.message_type, 
         user: user.id,
         # conversation_id: message.conversation_id
       )
@@ -28,7 +30,9 @@ class MessageBroadcastJob < ApplicationJob
     if user.name != "bot"
       ActionCable.server.broadcast(
         "conversations-#{user.id}",
-        content: message, 
+        content:  message.content.as_json,
+        message_by: message.message_by,
+        message_type: message.message_type, 
         user: user.id
 
         # conversation_id: message.conversation_id
