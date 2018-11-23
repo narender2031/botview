@@ -3,10 +3,10 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
   disconnected: function() {},
   received: function(data) {
     console.log(data)
-    console.log(data['content']['content'])
-    message = data['content']['content']
-    message_by = data['content']['message_by']
-    message_type = data['content']['message_type']
+    console.log(data['content'])
+    message = data['content']
+    message_by = data['message_by']
+    message_type = data['message_type']
     if(data != ''){
       // $(".messages").append(data['message'])
       // $(".messages").append('<br>')
@@ -18,29 +18,44 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
         //   content: message
         // });
       }else{
-        if(message_type=='buttons'){
-          return botui.action.button({
-            action: [
-              { // show only one button
-                text: message,
-                value: message
-              }
-            ]
-          }).then(function (res) { // will be called when a button is clicked.
-            console.log(res.value);
-          });
-        }else{
+        if( message_type == 'text'){
           botui.message.add({
-            content: message,
+            delay: 1000,
+            loading: true,
+            content: message
+          });
+        }else if (message_type == 'buttons'){
+          new_message = message.replace(/=>/g, ':')
+          final_button = []
+          buttons = JSON.parse(new_message)
+          $.map(buttons, function(val, i){
+            sort_data = {
+              text: val['text'],
+            value: val['payload']
+            }
+            final_button.push(sort_data)
+          })
+          console.log(final_button)
+          return botui.action.button({
+            delay: 1000,
+            loading: true,
+            action: final_button
+          }).then(function (res) { // will be called when a button is clicked.
+            message = res.value;
+            message_by = 'user'
+            data = []
+            conversation_id = $("#conversation_id").val();
+            data.push({message: message, message_by: message_by, conversation_id: conversation_id})
+            var values = data
+            App.conversation.speak(values); // will print "one" from 'value'
           });
         }
       }
       botui.action.text({ 
         delay: 3000,
-        loading: true,
         human: true,
         action: {
-          placeholder: 'Enter your text here'
+          placeholder: 'Please enter your text here'
         }
       });
      

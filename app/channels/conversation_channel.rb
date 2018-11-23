@@ -26,12 +26,9 @@ class ConversationChannel < ApplicationCable::Channel
   private
 
   def call_back_to_bot(message, user_id, conversation_id)
-    puts conversation_id
-    puts user_id
-    puts message
-    if conversation_id.present?
-      puts "in callbackkkkkkkkkkkkkkkkkkkkkkkkkkk"
-      url = URI("https://4811f170.ngrok.io/incoming/sarah")
+
+    if conversation_id.present? && user_id.present? && message.present?
+      url = URI("#{ENV['BOT_URL']}")
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE

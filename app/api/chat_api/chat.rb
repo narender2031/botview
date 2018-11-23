@@ -20,33 +20,28 @@ module ChatApi
     # api's
     resource :graph do
       desc "Results"
-      puts "aaaaaaaaaaaaaaaaaaaaaaaaaa"
-
       params do
         requires :message, type:String, documentation: {in: 'body'}
         requires :user_id, type:Integer
         requires :message_type, type:String
-        optional :buttons, type:Array
+        optional :buttons, type: Array
       end
       post '/results' do
-        puts "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
-        puts params[:buttons]
-        conversation = Conversation.find_by(sender_id: 3, recipient_id: params[:user_id])
+        conversation = Conversation.find_by(sender_id: ENV['BOT_USER_id'], recipient_id: params[:user_id])
         if !conversation.present?
-          conversation = Conversation.new(sender_id: 3, recipient_id: params[:user_id])
+          conversation = Conversation.new(sender_id: ENV['BOT_USER_id'], recipient_id: params[:user_id])
           conversation.save
         end
-        if params[:buttons].present?
-          params[:buttons].each do |button|
-            Message.create!(content: button[:text], message_type: "buttons", conversation_id: conversation.id, message_by: 'bot')
-          end
-        end
-        message = Message.create!(content: params[:message], conversation_id: conversation.id, message_by: 'bot', message_type: "text")
+
+        message = Message.new(content: params[:message], conversation_id: conversation.id, message_by: "#{ENV['BOT_USER']}", message_type: "text")
         message.save
+
+        if params[:buttons].present?
+          Message.create!(content: params[:buttons], message_type: "buttons", conversation_id: conversation.id, message_by: "#{ENV['USER']}")
+        end
         puts "message: #{params[:message]}, user_id: #{params[:user_id]}, message_type: #{params[:message_type]}"
         ({message: params[:message] })
       end
     end
-
   end
 end
