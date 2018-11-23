@@ -24,13 +24,15 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
             loading: true,
             content: message
           });
-          botui.action.text({ 
-            delay: 3000,
-            human: true,
-            action: {
-              placeholder: 'Please enter your text'
-            }
-          });
+          if( message != 'Goodbye World!'){
+            botui.action.text({ 
+              delay: 3000,
+              human: true,
+              action: {
+                placeholder: 'Please enter your text'
+              }
+            });
+          }
         }else if (message_type == 'buttons'){
           new_message = message.replace(/=>/g, ':')
           final_button = []
