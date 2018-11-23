@@ -24,7 +24,7 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
             loading: true,
             content: message
           });
-          if( message != 'Goodbye World!'){
+          if( message != 'It was nice talking to you. Ciao!'){
             botui.action.text({ 
               delay: 3000,
               human: true,
@@ -33,7 +33,7 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
               }
             });
           }
-        }else if (message_type == 'buttons'){
+       }else if (message_type == 'buttons'){
           new_message = message.replace(/=>/g, ':')
           final_button = []
           buttons = JSON.parse(new_message)
