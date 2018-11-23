@@ -18,16 +18,29 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
         //   content: message
         // });
       }else{
-        botui.message.add({
-          content: message
-        });
+        if(message_type=='buttons'){
+          return botui.action.button({
+            action: [
+              { // show only one button
+                text: message,
+                value: message
+              }
+            ]
+          }).then(function (res) { // will be called when a button is clicked.
+            console.log(res.value);
+          });
+        }else{
+          botui.message.add({
+            content: message,
+          });
+        }
       }
       botui.action.text({ 
         delay: 3000,
         loading: true,
         human: true,
         action: {
-          placeholder: 'Your name'
+          placeholder: 'Enter your text here'
         }
       });
      

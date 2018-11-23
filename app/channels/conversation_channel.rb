@@ -30,6 +30,7 @@ class ConversationChannel < ApplicationCable::Channel
     puts user_id
     puts message
     if conversation_id.present?
+      puts "in callbackkkkkkkkkkkkkkkkkkkkkkkkkkk"
       url = URI("https://4811f170.ngrok.io/incoming/sarah")
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true

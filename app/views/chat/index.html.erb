@@ -22,17 +22,18 @@
         content: "<%= message.content %>",
       });
     <% else %>
-      botui.message.add({
-        content: "<%= message.content %>"
-      });
-    <% end  %>
+        botui.message.add({
+          content: "<%= message.content %>"
+        
+        });
+      <% end  %>
   <% end %>
   <% if  @messages.blank? %> 
     botui.action.button({
       action: [
         { // show only one button
           text: 'Say Hello',
-          value: 'Hello'
+          value: 'Helloui'
         }
       ]
     }).then(function (res) { // will be called when a button is clicked.
