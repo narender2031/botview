@@ -18,8 +18,8 @@ development:
   encoding: unicode
   database: botview_development
   pool:     5
-  username: postgres
-  password: postgres
+  username: botview
+  password:
   template: template0
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -46,8 +46,8 @@ test:
   encoding: unicode
   database: botview_test
   pool:     5
-  username: postgres
-  password: postgres
+  username: botview
+  password:
   template: template0
 
 production:
