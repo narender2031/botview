@@ -27,7 +27,7 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
         loading: true,
         human: true,
         action: {
-          placeholder: 'Your name'
+          placeholder: 'Please enter your text'
         }
       });
      
