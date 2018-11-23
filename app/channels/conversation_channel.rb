@@ -28,19 +28,16 @@ class ConversationChannel < ApplicationCable::Channel
   private
 
 
-  def call_back_to_bot(message, user_id, conversation_id, payload)
-    puts "---------========-----------"
-    puts payload
-    puts "---------========-------------"
-    if conversation_id.present? && user_id.present? && message.present?
-      url = URI("#{ENV['BOT_URL']}")
-      http = Net::HTTP.new(url.host, url.port)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      request = Net::HTTP::Post.new(url)
-      request["content-type"] = 'application/x-www-form-urlencoded'
-      request.body = "value=#{message}&encounter_id=#{user_id}&payload=#{payload}"
-      response = http.request(request)
-    end
-  end
+  # def call_back_to_bot(message, user_id, conversation_id, payload)
+  #   if conversation_id.present? && user_id.present? && message.present?
+  #     url = URI("#{ENV['BOT_URL']}")
+  #     http = Net::HTTP.new(url.host, url.port)
+  #     http.use_ssl = true
+  #     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+  #     request = Net::HTTP::Post.new(url)
+  #     request["content-type"] = 'application/x-www-form-urlencoded'
+  #     request.body = "value=#{message}&encounter_id=#{user_id}&payload=#{payload}"
+  #     response = http.request(request)
+  #   end
+  # end
 end
