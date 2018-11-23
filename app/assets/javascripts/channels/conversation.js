@@ -24,6 +24,13 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
             loading: true,
             content: message
           });
+          botui.action.text({ 
+            delay: 3000,
+            human: true,
+            action: {
+              placeholder: 'Please enter your text'
+            }
+          });
         }else if (message_type == 'buttons'){
           new_message = message.replace(/=>/g, ':')
           final_button = []
@@ -37,7 +44,7 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
           })
           console.log(final_button)
           return botui.action.button({
-            delay: 1000,
+            delay: 2000,
             loading: true,
             action: final_button
           }).then(function (res) { // will be called when a button is clicked.
@@ -45,20 +52,12 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
             message_by = 'user'
             data = []
             conversation_id = $("#conversation_id").val();
-            data.push({message: message, message_by: message_by, conversation_id: conversation_id})
+            data.push({message: message, message_by: message_by, conversation_id: conversation_id, payload:  message})
             var values = data
             App.conversation.speak(values); // will print "one" from 'value'
           });
         }
       }
-      botui.action.text({ 
-        delay: 3000,
-        human: true,
-        action: {
-          placeholder: 'Please enter your text'
-        }
-      });
-     
     }
   },
   speak: function(message) {
