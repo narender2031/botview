@@ -1,42 +1,42 @@
 function composeMessage(content, type, meta, actions){
-   message = {
-    content:{
-        text: content,
-        type: type,
-        actions: actions
-      },
+  message = {
+  content:{
+      text: content,
       type: type,
-      meta: meta
-   }
-    return message
+      actions: actions
+    },
+    type: type,
+    meta: meta
+  }
+  return message
 }
 
 
 function start_conversation(){
-   hello_button =  botui.action.button({
-        action: [
-          { // show only one button
-            text: 'Say Hello 😲',
-            value: 'Hello 😲'
-          }
-        ]
-      }).then(function (res) { // will be called when a button is clicked.
-        content = res.value;
-        on_action_genrate_message(content, 'user', type="text", payload=content)
-      });
-    
-    return hello_button
+  hello_button =  botui.action.button({
+    action: [
+      { // show only one button
+        text: 'Say Hello 😲',
+        value: 'Hello 😲'
+      }
+    ]
+    }).then(function (res) { // will be called when a button is clicked.
+      content = res.value;
+      on_action_genrate_message(content, 'user', type="text", payload=content)
+    });
+  
+  return hello_button
 }
 
 
 function human_message(message, delay){
-    message = botui.message.add({
-      delay: delay,
-      human: true,
-      content: content,
-    });
+  message = botui.message.add({
+    delay: delay,
+    human: true,
+    content: content,
+  });
 
-    return message
+  return message
 }
 
 
@@ -47,7 +47,7 @@ function bot_message(message, delay, loading){
     content: message
   });
 
-    return message
+  return message
 }
 
 function add_text_field(delay){

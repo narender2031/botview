@@ -35,7 +35,6 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
     });
   }
 })
-
 $(document).on('submit', '.botui-actions-text', function(e){
   e.preventDefault();
   content = $(".botui-actions-text-input").val();
