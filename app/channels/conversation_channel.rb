@@ -16,19 +16,20 @@ class ConversationChannel < ApplicationCable::Channel
     message_params = {}
     payload= ''
     data['message'].each do |message|
-      message_params["content"] = message['message']
+      message_params["body"] = message['body']
       message_params["message_by"] = message['message_by']
       message_params["conversation_id"] = message['conversation_id']
       payload = message['payload']
     end
     Message.create(message_params)
-    call_back_to_bot(message_params['content'], current_user.id, message_params['conversation_id'], payload)
+    call_back_to_bot(message_params['body']['content']['text'], current_user.id, message_params['conversation_id'], payload)
   end
 
   private
 
 
   def call_back_to_bot(message, user_id, conversation_id, payload)
+    puts "----------------------------------------------------"
     if conversation_id.present? && user_id.present? && message.present?
       url = URI("#{ENV['BOT_URL']}")
       http = Net::HTTP.new(url.host, url.port)

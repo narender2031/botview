@@ -21,26 +21,17 @@ module ChatApi
     resource :graph do
       desc "Results"
       params do
-        requires :message, type:String, documentation: {in: 'body'}
-        requires :user_id, type:Integer
-        requires :message_type, type:String
-        optional :buttons, type: Array
+        requires :user_id, type:Integer, documentation: {in: 'body'}
+        requires :body, type:JSON
       end
       post '/results' do
-        conversation = Conversation.find_by(sender_id: ENV['BOT_USER_id'], recipient_id: params[:user_id])
-        if !conversation.present?
-          conversation = Conversation.new(sender_id: ENV['BOT_USER_id'], recipient_id: params[:user_id])
-          conversation.save
+        conversation_id = Conversation.get_conversation(params['user_id'], ENV['BOT_USER_id']).to_i if params['user_id'].present?
+        message = Message.new(body: params['body'], conversation_id: conversation_id, message_by: "#{ENV['BOT_USER']}") if params['body'].present?
+        if message.save
+          ({success: "message is saved"})
+        else
+          error!({error: "message is not saved!"}, 400)
         end
-
-        message = Message.new(content: params[:message], conversation_id: conversation.id, message_by: "#{ENV['BOT_USER']}", message_type: "text")
-        message.save
-
-        if params[:buttons].present?
-          Message.create!(content: params[:buttons], message_type: "buttons", conversation_id: conversation.id, message_by: "#{ENV['BOT_USER']}")
-        end
-        puts "message: #{params[:message]}, user_id: #{params[:user_id]}, message_type: #{params[:message_type]}"
-        ({message: params[:message] })
       end
     end
   end

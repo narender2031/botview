@@ -6,62 +6,23 @@
 </div>
 <script>
  var botui = new BotUI('hello-world');
-  // wait till its shown 
-  // $(".botui-messages-container").addClass('container');
-  // $(".botui-actions-container").addClass('container');
   <% if @messages.blank? %>
-    botui.action.button({
-      action: [
-        { // show only one button
-          text: 'Say Hello 😲',
-          value: 'Hello'
-        }
-      ]
-    }).then(function (res) { // will be called when a button is clicked.
-      message = res.value;
-      message_by = 'user'
-      data = []
-      conversation_id = $("#conversation_id").val();
-      data.push({message: message, message_by: message_by, conversation_id: conversation_id, })
-      var values = data
-      App.conversation.speak(values);
-        // $(this).trigger('reset'); will print "one" from 'value'
-    });
+    start_conversation();
   <% else %>
     <% @messages.each do |message| %>
+      var message = <%=raw message.body.to_json %>
+      var content = message['content']['text']
+      var type = message['content']['type']
       <% if message.message_by == 'user' %>
-        botui.message.add({
-          human: true,
-          content: "<%= message.content %>",
-        });
+        human_message(content, delay=0)
       <% else %>
-        
-        <% if message.message_type == 'text' %>
-          botui.message.add({
-            content: "<%= message.content %>"
-          });
-       
-          //message = "<%= message.content.to_json %>".replace(/&quot;/g, '').replace(/=>/g, ':')
-         // buttons = JSON.stringify(message)
-         // final_button = JSON.parse(buttons)
-         // console.log(final_button)
-         // botui.action.button({
-         //   delay: 1000,
-         //   loading: true,
-         //   action: final_button
-         // }).then(function (res) { // will be called when a button is clicked.
-         //   console.log(res.value); // will print "one" from 'value'
-         // });
-        <% end %>
+        if(type == 'text'){
+          bot_message(content, delay=0, loading=false)
+        }
       <% end  %>
     <% end %>
 
     // show input field
-    botui.action.text({
-      human: true, // show 'text' action
-      action: {
-        placeholder: 'Please Enter your text '
-      }
-    });
+    add_text_field(delay=0)
   <% end %>
 </script>

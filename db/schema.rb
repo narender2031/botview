@@ -16,22 +16,18 @@ ActiveRecord::Schema.define(version: 2018_11_27_040151) do
   enable_extension "plpgsql"
 
   create_table "conversations", force: :cascade do |t|
-    t.integer "recipient_id"
-    t.integer "sender_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["recipient_id", "sender_id"], name: "index_conversations_on_recipient_id_and_sender_id", unique: true
-    t.index ["recipient_id"], name: "index_conversations_on_recipient_id"
-    t.index ["sender_id"], name: "index_conversations_on_sender_id"
+    t.integer "user_id"
+    t.integer "bot_id"
   end
 
   create_table "messages", force: :cascade do |t|
-    t.text "content"
     t.bigint "conversation_id"
     t.string "message_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "message_type"
+    t.json "body", default: {"type"=>"", "content"=>{}, "meta"=>{}}
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
