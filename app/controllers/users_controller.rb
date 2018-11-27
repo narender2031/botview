@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  protect_from_forgery
   before_action :authenticate_user!
   after_action :verify_authorized
 
@@ -8,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(current_user.id)
+    @user = User.find(current_or_guest_user.id)
     authorize @user
   end
 
@@ -23,7 +24,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    user = User.find(current_user.id)
+    user = User.find(current_or_guest_user.id)
     authorize user
     user.destroy
     redirect_to users_path, :notice => "User deleted."

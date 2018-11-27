@@ -287,4 +287,7 @@ Devise.setup do |config|
   # ActiveSupport.on_load(:devise_failure_app) do
   #   include Turbolinks::Controller
   # end
+  config.warden do |manager|
+    manager.default_strategies(scope: :user).unshift :guest_user
+  end
 end

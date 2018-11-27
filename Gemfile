@@ -17,6 +17,7 @@ gem 'redis', '~> 3.2'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'grape'
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'devise-guests', '~> 0.6.1' #guest-users
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
