@@ -5,5 +5,12 @@ class CreateAdminService
         user.password_confirmation = Rails.application.secrets.admin_password
         user.admin!
       end
+
+      user = User.find_or_create_by!(email: Rails.application.secrets.bot_email) do |user|
+        user.name = Rails.application.secrets.bot_name
+        user.password = Rails.application.secrets.bot_password
+        user.password_confirmation = Rails.application.secrets.bot_password
+        user.admin!
+      end
   end
 end

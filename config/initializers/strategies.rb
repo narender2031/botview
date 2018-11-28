@@ -6,7 +6,6 @@ Warden::Strategies.add(:guest_user) do
     end
   
     def authenticate!
-        byebug
       u = User.where(id: session[:guest_user_id]).first
       success!(u) if u.present?
     end

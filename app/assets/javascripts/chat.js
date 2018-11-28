@@ -55,12 +55,24 @@ function add_text_field(delay){
     delay: delay,
     human: true,
     action: {
+      sub_type: 'name',
       placeholder: 'Please enter your text'
     }
   });
   return field
 }
 
+function add_email_field(delay){
+  field = botui.action.text({ 
+    delay: delay,
+    human: true,
+    action: {
+      sub_type: 'email',
+      placeholder: 'Please enter your email'
+    }
+  });
+  return field
+}
 
 function on_action_genrate_message(content, message_by, type, payload){
   content = content

@@ -24,7 +24,18 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
             on_action_genrate_message(content, 'user', type="text", payload=content)
           });
         }else{
-          add_text_field(delay=3000)
+          if (message=="It was nice talking to you. Ciao!") {
+          //  debugger
+            console.log(message)
+            // call to signin controller to login the guest
+            window.location.replace("/signin");
+          }else if (message=="Please tell us your Email!") {
+            add_email_field(delay=1000)
+          }else {
+            // debugger
+            add_text_field(delay=1000)
+          }
+          
         }
       }
     }
@@ -38,6 +49,8 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
 $(document).on('submit', '.botui-actions-text', function(e){
   e.preventDefault();
   content = $(".botui-actions-text-input").val();
-  on_action_genrate_message(content, 'user', type="text", payload='')
+  type= $(".botui-actions-text-input").attr('type');
+  // debugger
+  on_action_genrate_message(content, 'user', type, payload='')
   $(this).trigger('reset');
 })

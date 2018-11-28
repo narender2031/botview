@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get '/chat', to: "chat#index"
   post '/message', to: "chat#message"
+  get '/signin', to: "signin#new"
 
   devise_for :users
   resources :users
