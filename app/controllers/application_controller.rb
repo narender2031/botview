@@ -23,6 +23,12 @@ class ApplicationController < ActionController::Base
     end
 
     def current_or_guest_user
+      puts '---------------------------------------'
+      puts current_user.inspect
+      puts '---------------------------------------'
+      puts '++++++++++++++++++++++++++++++++++++++++'
+      puts guest_user.inspect
+      puts '++++++++++++++++++++++++++++++++++++++++'
       if current_user
         if session[:guest_user_id] && session[:guest_user_id] != current_user.id
           logging_in

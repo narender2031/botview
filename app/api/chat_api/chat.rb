@@ -22,11 +22,11 @@ module ChatApi
       desc "Results"
       params do
         requires :user_id, type:Integer, documentation: {in: 'body'}
-        requires :body, type:JSON
+        requires :message, type:JSON
       end
       post '/results' do
         conversation_id = Conversation.get_conversation(params['user_id'], ENV['BOT_USER_id']).to_i if params['user_id'].present?
-        message = Message.new(body: params['body'], conversation_id: conversation_id, message_by: "#{ENV['BOT_USER']}") if params['body'].present?
+        message = Message.new(body: {content: params['message'], type: '', meta: {}}, conversation_id: conversation_id, message_by: "#{ENV['BOT_USER']}") if params['message'].present?
         if message.save
           ({success: "message is saved"})
         else

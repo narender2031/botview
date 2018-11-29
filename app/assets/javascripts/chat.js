@@ -50,12 +50,13 @@ function bot_message(message, delay, loading){
   return message
 }
 
-function add_text_field(delay){
+function add_text_field(delay, type){
   field = botui.action.text({ 
     delay: delay,
     human: true,
     action: {
-      placeholder: 'Please enter your text'
+      sub_type: type,
+      placeholder: 'Please enter your text',
     }
   });
   return field
@@ -66,9 +67,14 @@ function on_action_genrate_message(content, message_by, type, payload){
   content = content
   message_by = message_by
   data = []
-  message = composeMessage(content, type=type, meta={}, actions = [] )
-  conversation_id = $("#conversation_id").val();
-  data.push({body: message, message_by: message_by, conversation_id: conversation_id, payload: payload})
-  var values = data
-  App.conversation.speak(values);
+  if(payload == 'CreatePassword'){
+    add_text_field(delay=1000, type='Password')
+    
+  }else{
+    message = composeMessage(content, type=type, meta={}, actions = [] )
+    conversation_id = $("#conversation_id").val();
+    data.push({body: message, message_by: message_by, conversation_id: conversation_id, payload: payload})
+    var values = data
+    App.conversation.speak(values);
+  }
 }

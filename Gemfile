@@ -35,6 +35,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bootstrap', '~> 4.0.0'
 gem 'devise'
+gem 'devise_invitable'
 gem 'high_voltage'
 gem 'pg'
 gem 'pundit'
