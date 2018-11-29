@@ -50,25 +50,13 @@ function bot_message(message, delay, loading){
   return message
 }
 
-function add_text_field(delay){
+function add_text_field(delay,type){
   field = botui.action.text({ 
     delay: delay,
     human: true,
     action: {
-      sub_type: 'name',
+      sub_type: type,
       placeholder: 'Please enter your text'
-    }
-  });
-  return field
-}
-
-function add_email_field(delay){
-  field = botui.action.text({ 
-    delay: delay,
-    human: true,
-    action: {
-      sub_type: 'email',
-      placeholder: 'Please enter your email'
     }
   });
   return field

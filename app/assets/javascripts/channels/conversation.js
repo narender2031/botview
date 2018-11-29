@@ -25,15 +25,10 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
           });
         }else{
           if (message=="It was nice talking to you. Ciao!") {
-          //  debugger
-            console.log(message)
             // call to signin controller to login the guest
             window.location.replace("/signin");
-          }else if (message=="Please tell us your Email!") {
-            add_email_field(delay=1000)
           }else {
-            // debugger
-            add_text_field(delay=1000)
+            add_text_field(delay=1000,type=message_type)
           }
           
         }
