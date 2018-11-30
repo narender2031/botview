@@ -22,13 +22,27 @@ class ConversationChannel < ApplicationCable::Channel
       message_params["conversation_id"] = message['conversation_id']
       payload = message['payload']
       Message.create(message_params)
+      # byebug
       email_regexp = /\A[^@\s]+@[^@\s]+\z/
+
+      if message['body']['type'] == 'name'
+        if message_params['body']['content']['text'] != ' '
+          user=User.find(current_user.id).update!(name: message_params['body']['content']['text'], guest: 'false', role: 'admin')
+        end
+      end
+
       if message['body']['type'] == 'email'
         if message_params['body']['content']['text'].match?(email_regexp)
           generated_password = Devise.friendly_token.first(8)
           user=User.find(current_user.id).update!(email: message_params['body']['content']['text'], guest: 'false', password: generated_password, password_confirmation: generated_password, role: 'admin')
         end
-    end
+      end
+
+      if message['body']['type'] == 'password'
+        if message_params['body']['content']['text'] !=''
+          user=User.find(current_user.id).update!(password: message_params['body']['content']['text'], guest: 'false', role: 'admin')
+        end
+      end
     end
     call_back_to_bot(message_params['body']['content']['text'], current_user.id, message_params['conversation_id'], payload)
   end

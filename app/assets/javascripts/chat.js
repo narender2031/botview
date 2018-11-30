@@ -66,7 +66,7 @@ function on_action_genrate_message(content, message_by, type, payload){
   content = content
   message_by = message_by
   data = []
-  message = composeMessage(content, type=type, meta={}, actions = [] )
+  message = composeMessage(content,type, meta={}, actions = [] )
   conversation_id = $("#conversation_id").val();
   data.push({body: message, message_by: message_by, conversation_id: conversation_id, payload: payload})
   var values = data

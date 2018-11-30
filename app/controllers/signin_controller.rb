@@ -4,9 +4,9 @@ class SigninController < ApplicationController
         if current_or_guest_user.present?
             user=User.find(current_or_guest_user.id)
             session[:guest_user_id] = nil
-            current_or_guest_user.reload
-            sign_out(user)
-            sign_in(user)
+            user.reload
+            sign_out(user) 
+            sign_in(user) #keeps the cuurent user signed in
             redirect_to root_path
         end
     end

@@ -14,6 +14,7 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
         // });
       }else{
         bot_message(message, delay=1000, loading = true)
+
         if (actions.length != 0){
           return botui.action.button({
             delay: 2000,
@@ -21,12 +22,31 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
             action: actions
           }).then(function (res) { // will be called when a button is clicked.
             content = res.payload;
-            on_action_genrate_message(content, 'user', type="text", payload=content)
+
+            if (content=='Generate password for me'){
+              // window.location.replace("/signin");
+              on_action_genrate_message(content, 'user', type="password", payload=content);
+            }else if(content=='Enter password manually'){
+              add_text_field(delay=1000,type=message_type)
+              
+            }else{
+              on_action_genrate_message(content, 'user', type="text", payload=content);
+
+            }
+
+
+
+
           });
         }else{
           if (message=="It was nice talking to you. Ciao!") {
             // call to signin controller to login the guest
-            window.location.replace("/signin");
+            window.setTimeout(function () { //delay to help user read msg den redirect
+              window.location.replace("/signin");
+          }, 2000)
+
+              // window.location.replace("/signin");
+            
           }else {
             add_text_field(delay=1000,type=message_type)
           }
