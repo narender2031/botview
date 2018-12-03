@@ -25,6 +25,7 @@ module ChatApi
         requires :message, type:JSON
       end
       post '/results' do
+        puts params['message']
         conversation_id = Conversation.get_conversation(params['user_id'], ENV['BOT_USER_id']).to_i if params['user_id'].present?
         message = Message.new(body: {content: params['message'], type: '', meta: {}}, conversation_id: conversation_id, message_by: "#{ENV['BOT_USER']}") if params['message'].present?
         if message.save
