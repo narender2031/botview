@@ -21,8 +21,8 @@
         }
       <% end  %>
     <% end %>
-
+     type = '<%= @messages.last.body['content']['type'] %>' || 'text'
+     add_text_field(delay=0, type = type)
     // show input field
-    add_text_field(delay=0, type='text')
   <% end %>
 </script>

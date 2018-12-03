@@ -22,14 +22,15 @@ class ConversationChannel < ApplicationCable::Channel
       payload = message['payload']
     end
     message = message_params['body']['content']['text']
-    Message.create(message_params)
     email = check_email_or_insert_to_deploy(message)
+    if payload == 'password'
+      User.find(current_user.id).update(password: message, guest: false)
+      message_params['body']['content']['text'] = '******************'
+    end
     if email == true
       update_guest_user(message, current_user.id)
     end
-    if payload == 'Password'
-      User.find(current_user.id).update(password: payload, guest: false)
-    end
+    Message.create(message_params)
     call_back_to_bot(message, current_user.id, message_params['conversation_id'], payload)
   end
 
@@ -37,9 +38,7 @@ class ConversationChannel < ApplicationCable::Channel
 
 
   def call_back_to_bot(message, user_id, conversation_id, payload)
-    puts "enter the call back "
     if conversation_id.present? && user_id.present? && message.present?
-      puts 'clear the all conditons'
       url = URI("#{ENV['BOT_URL']}")
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
@@ -57,10 +56,19 @@ class ConversationChannel < ApplicationCable::Channel
   end
 
 
-  def update_guest_user(meail, user_id)
+  def update_guest_user(email, user_id)
     user = User.find(user_id)
-    if user.present?
-      user.update(email: meail)
+    if !User.exists?(email: email)
+      if user.present?
+        user.update(email: email)
+      end
+    else
+      # message = "Error! this email is already taken" 
+      # compose_error(message, user)
     end
+  end
+
+  def compose_error(message, user)
+    
   end
 end
