@@ -52,7 +52,7 @@ function bot_message(message, delay, loading){
 
 function add_text_field(delay, type){
   add_message = chaeck_field_type(type) //check the field type
-
+  console.log(type)
   field = botui.action.text({ 
     addMessage: add_message,
     delay: delay,
@@ -88,7 +88,7 @@ function on_action_genrate_message(content, message_by, type, payload, postback)
   if(postback == 'postback'){
     message = composeMessage(content, type=type, meta={}, actions = [] )
     conversation_id = $("#conversation_id").val();
-    data.push({body: message, message_by: message_by, conversation_id: conversation_id, payload: payload})
+    data.push({body: message, message_by: message_by, type: type,  conversation_id: conversation_id, payload: payload})
     var values = data
     App.conversation.speak(values);
   }else{
@@ -99,12 +99,12 @@ function on_action_genrate_message(content, message_by, type, payload, postback)
 
 function genrate_buttons(actions){
   buttons = []
+  console.log(actions)
   $.map(actions['buttons'], function(value, key){
     button = {
       sub_type: value['type'],
       text: value['text'],
       payload: value['payload'],
-      other: value['other_value'],
       url: value['url'] || '',
       value: value['text']
     }

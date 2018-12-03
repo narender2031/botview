@@ -15,20 +15,27 @@ class ConversationChannel < ApplicationCable::Channel
   def speak(data)
     message_params = {}
     payload= ''
+    type  = ''
+    puts "--------------------"
+    puts data
+    puts "--------------------"
     data['message'].each do |message|
       message_params["body"] = message['body']
       message_params["message_by"] = message['message_by']
       message_params["conversation_id"] = message['conversation_id']
       payload = message['payload']
+      type = message['type']
     end
     message = message_params['body']['content']['text']
-    email = check_email_or_insert_to_deploy(message)
-    if payload == 'password'
+    if type == "name"
+      User.find(current_user.id).update(name: message)
+    end
+    if type == 'password'
       User.find(current_user.id).update(password: message, guest: false)
       message_params['body']['content']['text'] = '******************'
     end
-    if email == true
-      update_guest_user(message, current_user.id)
+    if type == 'email'
+      User.find(current_user.id).update(email: message)
     end
     Message.create(message_params)
     call_back_to_bot(message, current_user.id, message_params['conversation_id'], payload)
@@ -51,24 +58,24 @@ class ConversationChannel < ApplicationCable::Channel
   end
 
 
-  def check_email_or_insert_to_deploy(message)
-    /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.match?(message)
-  end
+  # def check_email_or_insert_to_deploy(message)
+  #   /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.match?(message)
+  # end
 
 
-  def update_guest_user(email, user_id)
-    user = User.find(user_id)
-    if !User.exists?(email: email)
-      if user.present?
-        user.update(email: email)
-      end
-    else
-      # message = "Error! this email is already taken" 
-      # compose_error(message, user)
-    end
-  end
+  # def update_guest_user(email, user_id)
+  #   user = User.find(user_id)
+  #   if !User.exists?(email: email)
+  #     if user.present?
+  #       user.update(email: email)
+  #     end
+  #   else
+  #     # message = "Error! this email is already taken" 
+  #     # compose_error(message, user)
+  #   end
+  # end
 
-  def compose_error(message, user)
+  # def compose_error(message, user)
     
-  end
+  # end
 end

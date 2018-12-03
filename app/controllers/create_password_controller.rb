@@ -24,4 +24,14 @@ class CreatePasswordController < ApplicationController
         sign_in(user)
         redirect_to root_path
     end
+
+    def delete_conversation
+        user = current_or_guest_user
+        conversation = Conversation.find_by(user_id: user.id)
+        Message.where(conversation_id: conversation.id).delete_all
+        conversation.delete
+        user.delete
+        redirect_to root_path
+    end
+
 end
