@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/update_session', to: 'create_password#update_session'
   get '/delete_conversation', to: 'create_password#delete_conversation'
 
+
   devise_for :users
   resources :users
 end

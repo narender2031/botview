@@ -12,7 +12,7 @@ class CreatePasswordController < ApplicationController
             user.reload
             sign_out(user)
             sign_in(user)
-            redirect_to user_session_path
+            redirect_to update_user
           end
         end
     end
@@ -22,7 +22,7 @@ class CreatePasswordController < ApplicationController
         user.reload
         sign_out(user)
         sign_in(user)
-        redirect_to user_session_path
+        redirect_to update_user, :notice => "Welcome!"
     end
 
     def delete_conversation
@@ -31,7 +31,11 @@ class CreatePasswordController < ApplicationController
         Message.where(conversation_id: conversation.id).delete_all
         conversation.delete
         user.delete
-        redirect_to user_session_path
+        redirect_to chat_path, :notice => "All conversation is deleted and your information is deleted! to chat again refresh page"
+    end
+
+    def update_user
+        redirect_to root_path
     end
 
 end
