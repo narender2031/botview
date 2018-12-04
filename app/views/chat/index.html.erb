@@ -5,12 +5,6 @@
   </div>
 </div>
 <script>
-window.onload = function() {
-    if(!window.location.hash) {
-        window.location = window.location + '#loaded';
-        window.location.reload();
-    }
-}
  var botui = new BotUI('hello-world');
   <% if @messages.blank? %>
     start_conversation();
@@ -22,7 +16,7 @@ window.onload = function() {
       <% if message.message_by == 'user' %>
         human_message(content, delay=0)
       <% else %>
-        if(type == 'text'){
+        if(type == 'text' || type == 'name' || type == 'email' || type == 'password'){
           bot_message(content, delay=0, loading=false)
         }
       <% end  %>
