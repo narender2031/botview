@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
   root to: 'visitors#index'
 
-  get '/chat', to: "chat#index"
+  get '/chat', to: "chat#chat"
   post '/message', to: "chat#message"
   get '/password', to: 'create_password#index'
   patch '/create_password', to: 'create_password#create'

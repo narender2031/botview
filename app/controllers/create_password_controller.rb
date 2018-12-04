@@ -31,7 +31,7 @@ class CreatePasswordController < ApplicationController
         Message.where(conversation_id: conversation.id).delete_all
         conversation.delete
         user.delete
-        redirect_to chat_path, :notice => "All conversation is deleted and your information is deleted! to chat again refresh page"
+        redirect_to chat_path, :notice => "All conversation is deleted and your information is deleted! For chat again refresh page or click on"
     end
 
     def update_user

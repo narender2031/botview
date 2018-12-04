@@ -4,7 +4,7 @@ class ChatController < ApplicationController
   require 'uri'
   require 'net/http'
 
-  def index
+  def chat
     current_or_guest_user.reload
     @conversation_id = Conversation.get_conversation(current_or_guest_user.id, ENV['BOT_USER_id']).to_i
     conversation_ids = get_conversation_ids(current_or_guest_user.id, ENV['BOT_USER_id'])
