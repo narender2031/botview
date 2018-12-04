@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
     rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-    private
+    
     def user_not_authorized
       flash[:alert] = "You are not authorized to perform this action."
       redirect_to(request.referrer || root_path)
@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
     
 
     def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :phone_number])
-      devise_parameter_sanitizer.permit(:account_update, keys: [:name, :phone_number])
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+      devise_parameter_sanitizer.permit(:account_update, keys: [:name])
     end
 
     def after_sign_in_path_for(resource)
@@ -23,12 +23,6 @@ class ApplicationController < ActionController::Base
     end
 
     def current_or_guest_user
-      puts '---------------------------------------'
-      puts current_user.inspect
-      puts '---------------------------------------'
-      puts '++++++++++++++++++++++++++++++++++++++++'
-      puts guest_user.inspect
-      puts '++++++++++++++++++++++++++++++++++++++++'
       if current_user
         if session[:guest_user_id] && session[:guest_user_id] != current_user.id
           logging_in

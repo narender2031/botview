@@ -12,7 +12,7 @@ class CreatePasswordController < ApplicationController
             user.reload
             sign_out(user)
             sign_in(user)
-            redirect_to root_path
+            redirect_to user_session_path
           end
         end
     end
@@ -22,7 +22,7 @@ class CreatePasswordController < ApplicationController
         user.reload
         sign_out(user)
         sign_in(user)
-        redirect_to root_path
+        redirect_to user_session_path
     end
 
     def delete_conversation
@@ -31,7 +31,7 @@ class CreatePasswordController < ApplicationController
         Message.where(conversation_id: conversation.id).delete_all
         conversation.delete
         user.delete
-        redirect_to root_path
+        redirect_to user_session_path
     end
 
 end
