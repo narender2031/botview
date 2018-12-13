@@ -7,8 +7,6 @@ Rails.application.routes.draw do
 
   get '/chat', to: "chat#chat"
   post '/message', to: "chat#message"
-  get '/password', to: 'create_password#index'
-  patch '/create_password', to: 'create_password#create'
   get '/update_session', to: 'create_password#update_session'
   get '/delete_conversation', to: 'create_password#delete_conversation'
 

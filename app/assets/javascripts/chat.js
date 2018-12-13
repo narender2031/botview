@@ -24,7 +24,6 @@ function start_conversation(){
       content = res.value;
       on_action_genrate_message(content, 'user', type="text", payload=content, postback='postback')
     });
-  
   return hello_button
 }
 
@@ -35,7 +34,6 @@ function human_message(message, delay){
     human: true,
     content: content,
   });
-
   return message
 }
 
@@ -46,13 +44,11 @@ function bot_message(message, delay, loading){
     loading: loading,
     content: message
   });
-
   return message
 }
 
 function add_text_field(delay, type){
   add_message = chaeck_field_type(type) //check the field type
-  console.log(type)
   field = botui.action.text({ 
     addMessage: add_message,
     delay: delay,
@@ -80,7 +76,6 @@ function chaeck_field_type(type){
   return add_message
 }
 
-
 function on_action_genrate_message(content, message_by, type, payload, postback){
   content = content
   message_by = message_by
@@ -99,7 +94,6 @@ function on_action_genrate_message(content, message_by, type, payload, postback)
 
 function genrate_buttons(actions){
   buttons = []
-  console.log(actions)
   $.map(actions['buttons'], function(value, key){
     button = {
       sub_type: value['type'],
@@ -110,6 +104,30 @@ function genrate_buttons(actions){
     }
     buttons.push(button)
   })
-
   return buttons
+}
+
+function genrate_buttons_ui(buttons){
+  botui.action.button({
+    delay: 2000,
+    loading: true,
+    action: buttons
+  }).then(function (res) { 
+    payload = res.payload;
+    message = res.text
+    type = res.sub_type
+    url =res.url
+    redirect_other_page(url)
+    if(payload != "Delete"){
+      on_action_genrate_message(message, 'user', type=type, payload=payload, postback=type)
+    }else{
+      window.location.replace(url)
+    }
+  });
+}
+
+function redirect_other_page(url){
+  if(url != undefined && url != ''){
+    window.location.replace(url)
+  }
 }
