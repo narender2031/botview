@@ -22,7 +22,7 @@ class CreatePasswordController < ApplicationController
         user.reload
         sign_out(user)
         sign_in(user)
-        redirect_to update_user, :notice => "Welcome!"
+        redirect_to root_path, :notice => "Welcome!"
     end
 
     def delete_conversation
