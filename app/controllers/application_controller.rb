@@ -23,16 +23,18 @@ class ApplicationController < ActionController::Base
     end
 
     def current_or_guest_user
-      if current_user
-        if session[:guest_user_id] && session[:guest_user_id] != current_user.id
-          logging_in
-          # reload guest_user to prevent caching problems before destruction
-          guest_user(with_retry = false).try(:reload).try(:destroy)
-          session[:guest_user_id] = nil
+      if params[:action] == "chat"
+        if current_user
+          if session[:guest_user_id] && session[:guest_user_id] != current_user.id
+            logging_in
+            # reload guest_user to prevent caching problems before destruction
+            guest_user(with_retry = false).try(:reload).try(:destroy)
+            session[:guest_user_id] = nil
+          end
+          current_user
+        else
+          guest_user
         end
-        current_user
-      else
-        guest_user
       end
     end
 
