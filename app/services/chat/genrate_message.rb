@@ -7,14 +7,13 @@ class Chat::GenrateMessage
   end
 
   def perform
-    puts messages['message']
     messages['message'].each do |message|
-      puts message_template
       message_template["message"]["body"] = message['body']
       message_template["message"]["message_by"] = message['message_by']
       message_template["message"]["conversation_id"] = message['conversation_id']
       message_template["payload"] = message['payload']
       message_template["type"] = message['type']
+      message_template["bot_type"] = message["chat_bot_type"]
     end
     return message_template
   end

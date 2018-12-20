@@ -2,6 +2,7 @@
   <div class="botui-app-container" id="hello-world">
     <bot-ui></bot-ui>
     <input type="hidden" name="conversation_id"  id ="conversation_id" value=<%= @conversation_id %>>
+    <input type="hidden" name="bot_id" class="chat_type" value="registeration_bot">
   </div>
 </div>
 <script>
@@ -9,20 +10,31 @@
   <% if @messages.blank? %>
     start_conversation();
   <% else %>
-    <% @messages.each do |message| %>
+    var total_messages = <%=  @messages.count - 1%>
+    <% @messages.each_with_index do |message, index| %>
       var message = <%=raw message.body.to_json %>
+      var index = <%= index %>
       var content = message['content']['text']
       var type = message['content']['type']
+      var actions = message['content']['actions']
       <% if message.message_by == 'user' %>
         human_message(content, delay=0)
       <% else %>
         if(type == 'text' || type == 'name' || type == 'email' || type == 'password'){
           bot_message(content, delay=0, loading=false)
         }
+        if(!jQuery.isEmptyObject(actions)){
+          if (actions.buttons.length > 0 &&  index == total_messages){
+            buttons = genrate_buttons(buttons = actions)
+            genrate_buttons_ui(buttons)
+          }
+        }else{
+          type = '<%= @messages.last.body['content']['type'] %>' || 'text'
+          add_text_field(delay=0, type = type)
+        }
       <% end  %>
     <% end %>
-     type = '<%= @messages.last.body['content']['type'] %>' || 'text'
-     add_text_field(delay=0, type = type)
+    
     // show input field
   <% end %>
 </script>

@@ -12,6 +12,7 @@ gem 'grape-swagger'
 gem 'swagger-docs'
 gem 'grape-swagger-rails'
 gem 'grape-entity'
+gem "sinatra"
 # gem 'devise-guests', '~> 0.5.0'
 gem 'dotenv-rails'
 gem 'redis', '~> 3.2'

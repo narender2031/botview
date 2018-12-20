@@ -1,4 +1,6 @@
-App.conversation = App.cable.subscriptions.create("ConversationChannel", {
+$(window).on('load', function() {
+conversation_id =  $("#conversation_id").val()
+App.conversation = App.cable.subscriptions.create({channel: "ConversationChannel", conversation_id: conversation_id}, {
   connected: function() {},
   disconnected: function() {},
   received: function(data) {
@@ -27,14 +29,19 @@ App.conversation = App.cable.subscriptions.create("ConversationChannel", {
   }
 })
 
-$(document).on('submit', '.botui-actions-text', function(e){
-  e.preventDefault();
-  content = $(".botui-actions-text-input").val();
-  type = $(".botui-actions-text-input").attr('type');
-   $(".botui-actions-text-input").attr('response_type', 'postback');
-  if(type == 'text' || type == 'name' || type == 'email' || type == 'password'){
-    payload = ''
-  }
-  on_action_genrate_message(content, 'user', type=type, payload=payload, postback='postback')
-  $(this).trigger('reset');
+  conversation_id = $("#conversation_id").val();
+  
+
+  $(document).on('submit', '.botui-actions-text', function(e){
+    e.preventDefault();
+    chat_bot_type = $(".chat_type").val();
+    content = $(".botui-actions-text-input").val();
+    type = $(".botui-actions-text-input").attr('type');
+    $(".botui-actions-text-input").attr('response_type', 'postback');
+    if(type == 'text' || type == 'name' || type == 'email' || type == 'password'){
+      payload = ''
+    }
+    on_action_genrate_message(content, 'user', type=type, payload=payload, postback='postback', chat_bot_type=chat_bot_type)
+    $(this).trigger('reset');
+  })
 })

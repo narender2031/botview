@@ -4,7 +4,10 @@ class ConversationChannel < ApplicationCable::Channel
 
 
   def subscribed
-    stream_from "conversations-#{current_user.id}"
+    puts params
+    
+    conversation = Conversation.where(user_id: current_user.id).last
+    stream_from "conversations-#{params['conversation_id']}"
   end
 
   def unsubscribed
@@ -19,22 +22,20 @@ class ConversationChannel < ApplicationCable::Channel
     user = User::UpdateUser.new(result['type'], message, current_user.id) if result['type'] == "email" && result['type'] == "name" && result['type'] == "password"
     user.perform if user.present?
     Message.create(message_params)
-    call_back_to_bot(message, current_user.id, message_params['conversation_id'], result['payload'])
+    call_back_to_bot(message, current_user.id, message_params['conversation_id'], result['payload'], result['bot_type'])
   end
 
   private
+  # bot message schema
+  # 1. fields
+  # conversation_id, bot_type, message, payload,
+  # encounter_id=conversation_id, value=message, payload=payload
 
-  def call_back_to_bot(message, user_id, conversation_id, payload)
+  def call_back_to_bot(message, user_id, conversation_id, payload, bot_type)
     if conversation_id.present? && user_id.present? && message.present?
-      url = URI("#{ENV['BOT_URL']}")
-      http = Net::HTTP.new(url.host, url.port)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      request = Net::HTTP::Post.new(url)
-      request["content-type"] = 'application/x-www-form-urlencoded'
-      request.body = "value=#{message}&encounter_id=#{user_id}&payload=#{payload}"
-      response = http.request(request)
-      puts response.code
+      message = Chat::SendMessage.new(message, conversation_id, payload, bot_type, user_id)
+      response = message.perform
+      puts response
     end
   end
 end

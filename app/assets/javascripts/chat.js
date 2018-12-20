@@ -22,7 +22,8 @@ function start_conversation(){
     ]
     }).then(function (res) {
       content = res.value;
-      on_action_genrate_message(content, 'user', type="text", payload=content, postback='postback')
+      chat_bot_type = $(".chat_type").val();
+      on_action_genrate_message(content, 'user', type="text", payload=content, postback='postback', chat_bot_type=  chat_bot_type)
     });
   return hello_button
 }
@@ -76,14 +77,16 @@ function chaeck_field_type(type){
   return add_message
 }
 
-function on_action_genrate_message(content, message_by, type, payload, postback){
+function on_action_genrate_message(content, message_by, type, payload, postback, chat_bot_type){
+  chat_bot_type = chat_bot_type
   content = content
   message_by = message_by
   data = []
   if(postback == 'postback'){
     message = composeMessage(content, type=type, meta={}, actions = [] )
     conversation_id = $("#conversation_id").val();
-    data.push({body: message, message_by: message_by, type: type,  conversation_id: conversation_id, payload: payload})
+    console.log(conversation_id)
+    data.push({body: message, message_by: message_by, type: type,  conversation_id: conversation_id, payload: payload, chat_bot_type: chat_bot_type})
     var values = data
     App.conversation.speak(values);
   }else{
@@ -108,7 +111,7 @@ function genrate_buttons(actions){
 }
 
 function genrate_buttons_ui(buttons){
-  botui.action.button({
+   botui.action.button({
     delay: 2000,
     loading: true,
     action: buttons
@@ -119,7 +122,8 @@ function genrate_buttons_ui(buttons){
     url =res.url
     redirect_other_page(url)
     if(payload != "Delete"){
-      on_action_genrate_message(message, 'user', type=type, payload=payload, postback=type)
+      chat_bot_type = $(".chat_type").val();
+      on_action_genrate_message(message, 'user', type=type, payload=payload, postback=type, chat_bot_type= chat_bot_type)
     }else{
       window.location.replace(url)
     }

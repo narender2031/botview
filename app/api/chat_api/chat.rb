@@ -6,9 +6,9 @@ module ChatApi
     helpers do
       def authenticate
         token = headers['Authorization']
-        User.exists?(token: token)
-        if User.exists?(token: token)
-          @current_user = User.find_by(token: token)
+        puts token 
+        if token == ENV['MESSAGE_SECERT']
+          ({success: "done"})
         else
           error! 'Unauthorized', 401
         end
@@ -19,19 +19,29 @@ module ChatApi
     end
     # api's
     resource :graph do
-      desc "Results"
+      desc "get messages",{
+        headers: {
+            "Authorization" => {
+            description: "Valdates your identity",
+            required: true
+            }
+        }
+        }
       params do
-        requires :user_id, type:Integer, documentation: {in: 'body'}
+        requires :conversation_id, type:Integer, documentation: {in: 'body'}
         requires :message, type:JSON
       end
       post '/results' do
+        authenticate
         puts params['message']
-        conversation_id = Conversation.get_conversation(params['user_id'], ENV['BOT_USER_id']).to_i if params['user_id'].present?
-        message = Message.new(body: {content: params['message'], type: '', meta: {}}, conversation_id: conversation_id, message_by: "#{ENV['BOT_USER']}") if params['message'].present?
-        if message.save
-          ({success: "message is saved"})
-        else
-          error!({error: "message is not saved!"}, 400)
+        conversation = Conversation.find_by(id: params[:conversation_id])
+        if conversation.present?
+          message = Message.new(body: {content: params['message'], type: '', meta: {}}, conversation_id: conversation.id, message_by: "#{ENV['BOT_USER']}") if params['message'].present?
+          if message.save
+            ({success: "message is saved"})
+          else
+            error!({error: "message is not saved!"}, 400)
+          end
         end
       end
     end

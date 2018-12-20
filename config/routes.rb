@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root to: 'visitors#index'
 
   get '/chat', to: "chat#chat"
+  get '/document', to: "chat#document_chat"
   post '/message', to: "chat#message"
   get '/update_session', to: 'create_password#update_session'
   get '/delete_conversation', to: 'create_password#delete_conversation'
