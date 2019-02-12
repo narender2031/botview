@@ -19,7 +19,6 @@ class Chat::SendMessage
     request["content-type"] = 'application/json'
     request.body = body.to_json
     response = http.request(request)
-    puts response.read_body
     return response.code
   end
 

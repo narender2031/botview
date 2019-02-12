@@ -4,8 +4,6 @@ class ConversationChannel < ApplicationCable::Channel
 
 
   def subscribed
-    puts params
-    
     conversation = Conversation.where(user_id: current_user.id).last
     stream_from "conversations-#{params['conversation_id']}"
   end
